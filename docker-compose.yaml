@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: booking-lap
+    container_name: booking-lap
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=localhost
+      - DB_PORT=3306
+      - DB_DATABASE=booking_lap
+      - DB_USERNAME=root
+      - DB_PASSWORD=
+    volumes:
+      - .:/var/www
+    networks:
+      - laravel-network
+
+  db:
+    image: mysql:5.7
+    container_name: laravel-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE=booking_lap
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - laravel-network
+
+networks:
+  laravel-network:
+
+volumes:
+  db-data:
