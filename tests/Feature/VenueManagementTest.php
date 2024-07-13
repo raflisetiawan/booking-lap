@@ -35,7 +35,7 @@ class VenueManagementTest extends TestCase
             'categories' => $categories->pluck('id')->toArray(),
         ]);
 
-        Storage::disk('avatars')->assertMissing('avatar.jpg');
+        Storage::disk('avatars')->assertMissing($file->hashName);
 
         $this->assertDatabaseHas('venues', [
             'name_venue' => 'Test Venue',
