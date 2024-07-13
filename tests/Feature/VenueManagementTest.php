@@ -35,7 +35,7 @@ class VenueManagementTest extends TestCase
             'categories' => $categories->pluck('id')->toArray(),
         ]);
 
-        Storage::disk('public/venues')->assertExists($file->hashName());
+        Storage::disk('public')->assertExists($file->hashName());
 
         $this->assertDatabaseHas('venues', [
             'name_venue' => 'Test Venue',
@@ -82,7 +82,7 @@ class VenueManagementTest extends TestCase
                 'image_venue' => $file,
                 'user_id' => $user->id,
             ]);
-            Storage::disk('avatars')->assertMissing('avatar.jpg');
+            Storage::disk('public')->assertExists($file->hashName());
             $response->assertRedirect('/venues');
             $this->assertDatabaseHas('venues', [
                 'id' => $venue->id,
